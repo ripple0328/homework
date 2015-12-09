@@ -55,4 +55,23 @@ public class ParkinglotTest {
         Car fetchedCar = parkingManager.fetch(token);
         assertEquals(car, fetchedCar);
     }
+
+    @Test
+    public void testParkingManagerOnlyParktoAnotherWhenPreviousisFull() throws Exception {
+        token = parkingManager.park(car);
+        Car fetchedCar = parkinglot1.fetch(token);
+        assertEquals(car, fetchedCar);
+
+        Car car1 = new Car();
+        ParkingToken token1 = parkingManager.park(car1);
+        Car fetchedCar1 = parkinglot1.fetch(token1);
+        assertEquals(car1, fetchedCar1);
+
+        Car car2 = new Car();
+        ParkingToken token2 = parkingManager.park(car2);
+        Car fetchedCar2 = parkinglot1.fetch(token2);
+        Car fetchedCar3 = parkinglot.fetch(token2);
+        assertNotEquals(car2, fetchedCar2);
+        assertEquals(car2, fetchedCar3);
+    }
 }
